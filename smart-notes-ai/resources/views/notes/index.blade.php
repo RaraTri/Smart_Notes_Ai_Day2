@@ -42,9 +42,13 @@
                 <h4>Belajar Laravel</h4>
                 <p class="text-shadow-yellow-50 mt-2">Saya sedang belajar laravel</p>
                 <div class="flex gap-2 mt-4">
-                    <x-button>
+                    <x-button class="btn-summary">
                         Simpulkan Menggunakan AI
                     </x-button>
+                    <div class="summary-container hidden mt-4 p-3 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm">
+    <strong class="block mb-1 text-blue-500">✨ Summary AI:</strong>
+    <span class="summary-text text-slate-700 dark:text-slate-300 italic"></span>
+</div>
                     <x-button class="bg-emerald-600">
                         Buat Quiz dengan AI
                     </x-button>
@@ -72,4 +76,51 @@
         </div>
     </div>
 </div>
+<script>
+document.querySelectorAll('.btn-summary').forEach(button => {
+    button.addEventListener('click', async function() {
+        // Mencari kotak kartu tempat tombol ini berada
+        const card = this.closest('div').parentElement; 
+        const pTag = card.querySelector('p');
+        const noteContent = pTag ? pTag.innerText : 'Catatan';
+        
+        const container = card.querySelector('.summary-container');
+        const textSpan = card.querySelector('.summary-text');
+        
+        // Tampilkan kotak loading
+        container.classList.remove('hidden');
+        textSpan.innerText = 'AI sedang membaca dan meringkas...';
+        this.disabled = true;
+
+        try {
+            // Minta data ke backend dengan metode fetch stream
+            const response = await fetch('/notes/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ content: noteContent })
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            textSpan.innerText = ''; // Hapus tulisan loading, siap ngetik real-time
+
+            // Loop membaca potongan data yang dikirim server per kata
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                // Cetak potongan kata ke layar secara langsung
+                textSpan.innerHTML += decoder.decode(value, { stream: true });
+            }
+        } catch (error) {
+            textSpan.innerText = 'Gagal memuat ringkasan dari AI.';
+        } finally {
+            this.disabled = false;
+        }
+    });
+});
+</script>
 @endsection

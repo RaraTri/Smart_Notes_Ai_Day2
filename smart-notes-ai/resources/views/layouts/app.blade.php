@@ -10,6 +10,23 @@
             @laravelPWA
         @endif
 
+<style>
+        /* Memaksa background layar dan area utama jadi gelap */
+        html.dark body, html.dark main, html.dark .bg-slate-100 {
+            background-color: #0f172a !important;
+            color: #ffffff !important;
+        }
+        /* Memaksa kotak-kotak card putih jadi abu-abu gelap */
+        html.dark .bg-white {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            border: none !important;
+        }
+        /* Memaksa semua teks di dalam main jadi putih */
+        html.dark main * {
+            color: #ffffff !important;
+        }
+    </style>
     </head>
     <body>
         <div class="flex min-h-screen">
@@ -31,8 +48,9 @@
                 <header class="bg-white border-b px-6 py-4 flex justify-between">
     <div class="flex gap-2">
         <!-- Taruh tombolnya di sini -->
-        <button onclick="toggleDarkMode()" id="theme-toggle" class="p-2 bg-gray-200 dark:bg-gray-800 rounded text-sm">
-            Ganti Tema 🌓
+        <button onclick="toggleDarkMode()" id="theme-toggle" class="group flex items-center gap-2 px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md transition-all duration-300">
+            <span class="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Tema</span>
+            <span class="text-lg group-hover:rotate-12 transition-transform duration-300">🌓</span>
         </button>
         
         <!-- (Mungkin di bawah sini ada kode bawaan lain, biarkan saja) -->
@@ -45,6 +63,7 @@
             </main>
         </div>
         <script>
+
         const currentTheme = localStorage.getItem('theme');
         const htmlElement = document.documentElement;
 

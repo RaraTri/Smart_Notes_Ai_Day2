@@ -4,7 +4,7 @@
 <div class="min-h-screen flex items-center justify-center bg-slate-100">
     <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold mb-6">Smart Notes Ai</h1>
-        <form method="POST" action="/login">
+        <form method="GET" action="/dashboard">
             @csrf
 
             <div class="mb-4">

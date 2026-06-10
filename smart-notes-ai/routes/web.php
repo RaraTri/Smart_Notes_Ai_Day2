@@ -12,6 +12,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(CheckLogin::class);
-Route::get('/notes', [NoteController::class, 'index'])->middleware(CheckLogin::class);
+Route::get('/notes', [NoteController::class, 'index']);
 Route::get('/quiz', [QuizController::class, 'index'])->middleware(CheckLogin::class);
 Route::get('/show-quiz', [QuizController::class, 'show'])->middleware(CheckLogin::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+
+Route::post('/notes/summarize', [NoteController::class, 'summarize'])->name('notes.summarize');
