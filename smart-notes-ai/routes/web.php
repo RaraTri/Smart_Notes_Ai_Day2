@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
@@ -20,3 +21,6 @@ Route::get('/dashboard', function () {
 });
 
 Route::post('/notes/summarize', [NoteController::class, 'summarize'])->name('notes.summarize');
+
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');

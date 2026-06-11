@@ -40,6 +40,7 @@
                         <a href="/" class="block">Dashboard</a>
                         <a href="/notes" class="block">Notes</a>
                         <a href="/quiz" class="block">Quiz</a>
+                        <a href="/chat" class="block">Chat</a>
                     </nav>
                 </div>
             </aside>
